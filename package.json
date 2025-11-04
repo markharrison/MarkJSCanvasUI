@@ -1,0 +1,38 @@
+{
+  "name": "@markharrison/markjscanvasui",
+  "version": "1.20251103.5",
+  "description": "A reusable ui system for canvas applications.",
+  "main": "markjscanvasui.js",
+  "exports": {
+    ".": "./markjscanvasui.js",
+    "./markjscanvasui": "./markjscanvasui.js"
+  },
+  "files": [
+    "markjscanvasui.js",
+    "markjscanvasui.md",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/markharrison/MarkJSCanvasUI.git"
+  },
+  "author": "Mark Harrison",
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "dependencies": {
+    "@markharrison/markjsinput": "^1.20251103.1"
+  },
+  "keywords": [
+    "gamedev",
+    "game-development",
+    "canvas",
+    "ui",
+    "ui-controls",
+    "javascript",
+    "markharrison"
+  ]
+}

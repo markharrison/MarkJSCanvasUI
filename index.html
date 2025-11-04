@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>MarkJSCanvasUI Showcase</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script type="importmap">
+            {
+                "imports": {
+                    "@markharrison/markjsinput": "./node_modules/@markharrison/markjsinput/markjsinput.js"
+                }
+            }
+        </script>
+        <style>
+            html,
+            body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                background: #222;
+            }
+            #canvas-ui-showcase {
+                display: block;
+                margin: 0 auto;
+                background: #111;
+                border: 2px solid #444;
+            }
+            #themeSelector {
+                position: absolute;
+                top: 16px;
+                left: 16px;
+                z-index: 10;
+                font-size: 1.2em;
+            }
+        </style>
+    </head>
+    <body>
+        <select id="themeSelector" title="Select theme">
+            <option value="CyberMark">CyberMark</option>
+            <option value="Dark">Dark</option>
+            <option value="Aqua">Aqua</option>
+            <option value="Forest">Forest</option>
+            <option value="Pumpkin">Pumpkin</option>
+        </select>
+        <br />
+        <canvas id="canvas-ui-showcase" width="1280" height="720"></canvas>
+        <script type="module">
+            import { MarkJSCanvasUI, Control, Menu, Toggle, TextInput, Radio, Carousel, Slider, Panel, Modal, Toast } from './markjscanvasui.js';
+            import { MarkJSInput } from '@markharrison/markjsinput';
+
+            // Theme definitions
+            const themes = {
+                Dark: {
+                    controlColor: '#009966', // darker green for buttons
+                    controlSurfaceColor: '#222a36',
+                    controlTextColor: '#e0e0e0',
+                    controlBorderColor: '#00ff99',
+                    controlFocusBorderColor: '#00ff99',
+                    backgroundColor: '#181c24',
+                    textColor: '#e0e0e0',
+                    modalSurfaceColor: '#222a36',
+                    modalBorderColor: '#00ff99',
+                    modalTextColor: '#e0e0e0',
+                    modalText2Color: '#b0b0b0',
+                    panelSurfaceColor: '#222a36',
+                    panelBorderColor: '#00ff99',
+                },
+                CyberMark: {
+                    controlColor: '#ff1493',
+                    controlSurfaceColor: '#1a0d26',
+                    controlTextColor: '#00ffff',
+                    controlBorderColor: '#ff00ff',
+                    controlFocusBorderColor: '#00ff41',
+                    controlClickColor: '#ff0080',
+                    menuButtonColor: '#0080FF',
+                    menuButtonActiveColor: '#ff0000',
+                    menuButtonClickColor: '#ff0080',
+                    menuButtonBorderColor: '#ff00ff',
+                    menuButtonFocusBorderColor: '#00ff41',
+                    menuButtonFontSize: 16,
+                    modalSurfaceColor: '#0d0d0d',
+                    modalBorderColor: '#00ffff',
+                    modalTextColor: '#ff00ff',
+                    modalText2Color: '#00ff41',
+                    modalTextFontSize: 20,
+                    modalText2FontSize: 16,
+                    panelSurfaceColor: '#0f0f23',
+                    panelBorderColor: '#00ffff',
+                    backgroundColor: '#0a0a0a',
+                    textColor: '#00ffff',
+                    borderWidth: 2,
+                    borderRadius: 10,
+                },
+                Aqua: {
+                    controlColor: '#00bcd4',
+                    controlSurfaceColor: '#e0f7fa',
+                    controlTextColor: '#00796b',
+                    controlBorderColor: '#00bcd4',
+                    controlFocusBorderColor: '#00796b',
+                    backgroundColor: '#e0f7fa',
+                    textColor: '#00796b',
+                    modalSurfaceColor: '#ffffff',
+                    modalBorderColor: '#00bcd4',
+                    modalTextColor: '#00796b',
+                    modalText2Color: '#00796b',
+                    panelSurfaceColor: '#b2ebf2', // light aqua
+                    panelBorderColor: '#00bcd4',
+                },
+                Forest: {
+                    controlColor: '#388e3c',
+                    controlSurfaceColor: '#e8f5e9',
+                    controlTextColor: '#1b5e20',
+                    controlBorderColor: '#388e3c',
+                    controlFocusBorderColor: '#1b5e20',
+                    backgroundColor: '#e8f5e9',
+                    textColor: '#1b5e20',
+                    modalSurfaceColor: '#ffffff',
+                    modalBorderColor: '#388e3c',
+                    modalTextColor: '#1b5e20',
+                    modalText2Color: '#1b5e20',
+                    panelSurfaceColor: '#c8e6c9', // light green
+                    panelBorderColor: '#388e3c',
+                },
+                Pumpkin: {
+                    controlColor: '#ff9800',
+                    controlSurfaceColor: '#fff3e0',
+                    controlTextColor: '#e65100',
+                    controlBorderColor: '#ff9800',
+                    controlFocusBorderColor: '#e65100',
+                    backgroundColor: '#fff3e0',
+                    textColor: '#e65100',
+                    modalSurfaceColor: '#ffffff',
+                    modalBorderColor: '#ff9800',
+                    modalTextColor: '#e65100',
+                    modalText2Color: '#e65100',
+                    panelSurfaceColor: '#ffe0b2', // light orange
+                    panelBorderColor: '#ff9800',
+                },
+            };
+
+            const canvas = document.getElementById('canvas-ui-showcase');
+            const input = new MarkJSInput(canvas);
+            const ui = new MarkJSCanvasUI(canvas, { input });
+
+            // Add controls to showcase
+            function setupShowcaseControls() {
+                ui.removeAllControls();
+
+                // Title
+                ui.addText('MarkJSCanvasUI Control Showcase', 640, 20, {
+                    fontSize: 32,
+                    fontWeight: 'bold',
+                    align: 'center',
+                    baseline: 'top',
+                });
+
+                // Panel
+                // Use theme colors for Panel
+                const theme = ui.theme;
+                ui.addControl(
+                    new Panel(20, 70, {
+                        width: 900,
+                        height: 600,
+                        backgroundColor: theme.panelSurfaceColor || theme.controlSurfaceColor,
+                        borderColor: theme.panelBorderColor || theme.controlBorderColor,
+                        borderWidth: 2,
+                        borderRadius: 10,
+                    })
+                );
+
+                // Column 1 - Left side controls
+                let col1X = 50;
+                let currentY = 80;
+
+                // Menu - Horizontal
+                ui.addText('Menu (Horizontal)', col1X, currentY, { fontSize: 18, fontWeight: 'bold' });
+                currentY += 30;
+                const menuItems = [
+                    { label: 'File', callback: () => ui.showToast('File clicked', 'info', 2000) },
+                    { label: 'Edit', callback: () => ui.showToast('Edit clicked', 'info', 2000) },
+                    { label: 'View', callback: () => ui.showToast('View clicked', 'info', 2000) },
+                    { label: 'Help', callback: () => ui.showToast('Help clicked', 'info', 2000) },
+                ];
+                ui.addControl(new Menu(col1X, currentY, menuItems, { orientation: 'horizontal', width: 100, height: 45, gap: 5 }));
+                currentY += 70;
+
+                // Toggle
+                ui.addText('Toggle Switch', col1X, currentY, { fontSize: 18, fontWeight: 'bold' });
+                currentY += 30;
+                ui.addControl(
+                    new Toggle(col1X, currentY, 'Enable Feature', false, (val) => ui.showToast(`Toggle: ${val}`, 'info', 2000), { width: 300, height: 50 })
+                );
+                currentY += 70;
+
+                // TextInput
+                ui.addText('Text Input', col1X, currentY, { fontSize: 18, fontWeight: 'bold' });
+                currentY += 30;
+                ui.addControl(new TextInput(col1X, currentY, 'Type something here...', { width: 300, height: 50, controlColor: '#cccccc' }));
+                currentY += 70;
+
+                // Radio Buttons
+                ui.addText('Radio Buttons', col1X, currentY, { fontSize: 18, fontWeight: 'bold' });
+                currentY += 30;
+                ui.addControl(
+                    new Radio(
+                        col1X,
+                        currentY,
+                        ['Option A', 'Option B', 'Option C'],
+                        0,
+                        'label',
+                        (index, item) => ui.showToast(`${item} selected`, 'info', 2000),
+                        {
+                            width: 350,
+                            height: 30,
+                        }
+                    )
+                );
+                currentY += 120;
+
+                // Slider
+                ui.addText('Slider (0-100)', 500, 430, { fontSize: 18, fontWeight: 'bold' });
+                currentY += 30;
+                ui.addControl(new Slider(500, 450, 0, 100, 50, 1, 'label', (val) => ui.showToast(`Slider: ${Math.round(val)}`, 'info', 1500), { width: 350 }));
+
+                // Column 2 - Right side controls
+                let col2X = 500;
+                currentY = 80;
+
+                // Menu - Vertical
+                ui.addText('Menu (Vertical)', col2X, currentY, { fontSize: 18, fontWeight: 'bold' });
+                currentY += 30;
+                const menuItemsVert = [
+                    { label: 'New', callback: () => ui.showToast('New clicked', 'info', 2000) },
+                    { label: 'Open', callback: () => ui.showToast('Open clicked', 'info', 2000) },
+                    { label: 'Save', callback: () => ui.showToast('Save clicked', 'info', 2000) },
+                    { label: 'Exit', callback: () => ui.showToast('Exit clicked', 'info', 2000) },
+                ];
+                ui.addControl(new Menu(col2X, currentY, menuItemsVert, { orientation: 'vertical', width: 150, height: 45, gap: 5 }));
+                currentY += 210;
+
+                // Carousel
+                ui.addText('Carousel', col2X, currentY, { fontSize: 18, fontWeight: 'bold' });
+                currentY += 30;
+                ui.addControl(
+                    new Carousel(
+                        col2X,
+                        currentY,
+                        ['Summer', 'Autumn', 'Winter', 'Spring'],
+                        0,
+                        'label',
+                        (index, item) => ui.showToast(`Season: ${item}`, 'info', 2000),
+                        { width: 350, height: 60 }
+                    )
+                );
+                currentY += 85;
+
+                // Column 3 - Bottom controls
+                currentY = 550;
+
+                // Dialog Button
+                ui.addText('Dialogs & Toasts', 50, currentY, { fontSize: 18, fontWeight: 'bold' });
+                currentY += 30;
+                ui.addControl(
+                    new Menu(
+                        50,
+                        currentY,
+                        [
+                            {
+                                label: 'Show Dialog',
+                                callback: () => {
+                                    ui.showModal('Sample Dialog', 'This is a modal dialog with multiple buttons.', [
+                                        { label: 'OK', callback: () => ui.showToast('OK clicked', 'success', 2000) },
+                                        { label: 'Cancel', callback: () => ui.showToast('Cancelled', 'info', 2000) },
+                                    ]);
+                                },
+                            },
+                            { label: 'Success Toast', callback: () => ui.showToast('Success message!', 'success', 3000) },
+                            { label: 'Error Toast', callback: () => ui.showToast('Error message!', 'error', 3000) },
+                            { label: 'Warning Toast', callback: () => ui.showToast('Warning message!', 'warning', 3000) },
+                        ],
+                        { orientation: 'horizontal', width: 140, height: 45, gap: 5 }
+                    )
+                );
+            }
+
+            // Theme switching
+            function setTheme(themeName) {
+                ui.setTheme(themes[themeName]);
+                ui.setBackground(themes[themeName].backgroundColor);
+            }
+
+            document.getElementById('themeSelector').onchange = (e) => {
+                setTheme(e.target.value);
+                setupShowcaseControls();
+            };
+
+            // Animation loop
+            let lastTime = performance.now();
+            function animate(now) {
+                const delta = now - lastTime;
+                lastTime = now;
+                ui.update(delta);
+                ui.render();
+                requestAnimationFrame(animate);
+            }
+
+            // Initial setup
+            setTheme('CyberMark');
+            setupShowcaseControls();
+            animate(lastTime);
+        </script>
+    </body>
+</html>
