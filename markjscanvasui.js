@@ -1909,9 +1909,15 @@ export class Modal {
   handleGamepadButton(buttonIndex) {
     // Button 1 (B/Circle) = Exit/Cancel like ESC
     if (buttonIndex === 1) {
-      const exitButton = this.buttons.find((b) => b.label.toLowerCase() === 'exit' || b.label.toLowerCase() === 'close' || b.label.toLowerCase() === 'cancel');
-      if (exitButton && exitButton.callback) {
-        exitButton.callback();
+      // Use escapeButtonLabel if provided, else fallback to default
+      let escapeBtn = null;
+      if (this.escapeButtonLabel) {
+        escapeBtn = this.buttons.find((b) => b.label.toLowerCase() === this.escapeButtonLabel.toLowerCase());
+      } else {
+        escapeBtn = this.buttons.find((b) => ['exit', 'close', 'cancel'].includes(b.label.toLowerCase()));
+      }
+      if (escapeBtn && escapeBtn.callback) {
+        escapeBtn.callback();
       }
       this.close();
     } else {

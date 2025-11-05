@@ -310,10 +310,17 @@
               {
                 label: 'Show Dialog',
                 callback: () => {
-                  ui.showModal('Sample Dialog', 'This is a modal dialog with multiple buttons.', [
-                    { label: 'OK', callback: () => ui.showToast('OK clicked', 'success', 2000) },
-                    { label: 'Cancel', callback: () => ui.showToast('Cancelled', 'info', 2000) },
-                  ]);
+                  ui.showModal(
+                    'Sample Dialog',
+                    'This is a modal dialog with multiple buttons.',
+                    [
+                      { label: 'Yes', callback: () => ui.showToast('Yes clicked', 'success', 2000) },
+                      { label: 'No', callback: () => ui.showToast('No clicked', 'info', 2000) },
+                    ],
+                    {
+                      escapeButtonLabel: 'No',
+                    }
+                  );
                 },
               },
               { label: 'Success Toast', callback: () => ui.showToast('Success message!', 'success', 3000) },
