@@ -24,7 +24,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@markharrison/markjsinput": "^1"
+    "@markharrison/markjsinput": "^1.20251104.2"
   },
   "keywords": [
     "gamedev",
