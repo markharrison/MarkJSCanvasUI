@@ -1,6 +1,6 @@
 {
   "name": "@markharrison/markjscanvasui",
-  "version": "1.20251105.5",
+  "version": "1.20251105.6",
   "description": "A reusable ui system for canvas applications.",
   "main": "markjscanvasui.js",
   "exports": {
