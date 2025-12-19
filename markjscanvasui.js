@@ -377,6 +377,21 @@ export class MarkJSCanvasUI {
     this.focusIndex = (this.focusIndex - 1 + this.controls.length) % this.controls.length;
   }
 
+  // Manually set focus to a specific control or index
+  focusControl(controlOrIndex) {
+    if (this.controls.length === 0 || controlOrIndex === null || controlOrIndex === undefined) {
+      return false;
+    }
+
+    const index = typeof controlOrIndex === 'number' ? controlOrIndex : this.controls.indexOf(controlOrIndex);
+    if (index >= 0 && index < this.controls.length) {
+      this.focusIndex = index;
+      return true;
+    }
+
+    return false;
+  }
+
   addControl(control) {
     control.manager = this;
     control.applyTheme(); // Apply theme defaults

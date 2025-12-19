@@ -244,7 +244,9 @@
         // Toggle
         ui.addText('Toggle Switch', col1X, currentY, { fontSize: 18, fontWeight: 'bold' });
         currentY += 30;
-        ui.addControl(new Toggle(col1X, currentY, 'Enable Feature', false, (val) => ui.showToast(`Toggle: ${val}`, 'info', 2000), { width: 300, height: 50 }));
+        const toggleControl = ui.addControl(
+          new Toggle(col1X, currentY, 'Enable Feature', false, (val) => ui.showToast(`Toggle: ${val}`, 'info', 2000), { width: 300, height: 50 })
+        );
         currentY += 70;
 
         // TextInput
@@ -330,6 +332,9 @@
             { orientation: 'horizontal', width: 140, height: 45, gap: 5 }
           )
         );
+
+        // Set initial focus to the toggle control
+        ui.focusControl(toggleControl);
       }
 
       // Theme switching
