@@ -693,6 +693,9 @@ ui.showModal(
     escapeButtonLabel: 'Cancel', // Escape key behavior
   }
 );
+
+// Force line breaks inside the message
+ui.showModal('Multiline', 'First line\nSecond line after break');
 ```
 
 **Color Options:**
@@ -727,7 +730,7 @@ All color options default to theme colors but can be overridden:
 **Features:**
 
 - Semi-transparent background overlay
-- Word-wrapped message text
+- Word-wrapped message text (supports `\n` for manual line breaks)
 - Multiple button support
 - Click outside or button to close
 - Automatic centering
@@ -761,7 +764,7 @@ ui.showToast(
 - Stacks multiple toasts vertically
 - Auto-dismisses after duration
 - Icon with type-specific color
-- Word-wrapped text
+- Word-wrapped text (supports `\n` for manual line breaks)
 
 ## Input Handling
 

@@ -47,6 +47,41 @@ export function BuildFontString(fontOptions, defaultFont) {
   return `${prefix}${size}px ${family}`;
 }
 
+// Helper to wrap text with hard line breaks (\n) and width-based wrapping
+export function wrapText(text, maxWidth, measureText) {
+  const segments = text.split('\n');
+  const lines = [];
+
+  for (const segment of segments) {
+    const trimmed = segment.trim();
+
+    // Preserve intentional blank lines created by consecutive \n
+    if (trimmed === '') {
+      lines.push('');
+      continue;
+    }
+
+    const words = trimmed.split(' ');
+    let line = '';
+
+    for (const word of words) {
+      const testLine = line ? `${line} ${word}` : word;
+      const metrics = measureText(testLine);
+
+      if (metrics.width > maxWidth && line) {
+        lines.push(line);
+        line = word;
+      } else {
+        line = testLine;
+      }
+    }
+
+    lines.push(line);
+  }
+
+  return lines;
+}
+
 // Main MarkJSCanvasUI class
 export class MarkJSCanvasUI {
   constructor(canvas, options = {}) {
@@ -1823,25 +1858,14 @@ export class Modal {
       // Auto-size based on content
       const ctx = canvas.getContext('2d');
       ctx.font = '18px Arial';
-      const words = message.split(' ');
       const maxWidth = Math.min(600, canvas.width * 0.8) - 40;
-      let lineCount = 1;
-      let line = '';
-
-      for (let word of words) {
-        const testLine = line + word + ' ';
-        const metrics = ctx.measureText(testLine);
-        if (metrics.width > maxWidth && line !== '') {
-          lineCount++;
-          line = word + ' ';
-        } else {
-          line = testLine;
-        }
-      }
+      const wrappedLines = wrapText(message, maxWidth, (text) => ctx.measureText(text));
+      const lineCount = Math.max(1, wrappedLines.length);
+      const lineHeight = this.textFontSize + 7;
 
       // Calculate height based on content
       const titleHeight = 60;
-      const messageHeight = lineCount * 25 + 40;
+      const messageHeight = lineCount * lineHeight + 40;
       const buttonsHeight = 90;
       const minHeight = 200;
 
@@ -1997,22 +2021,15 @@ export class Modal {
     // Word wrap message
     const maxWidth = this.width - 40;
     const lineHeight = this.textFontSize + 7;
-    const words = this.message.split(' ');
-    let line = '';
+    const lines = wrapText(this.message, maxWidth, (text) => ctx.measureText(text));
     let y = this.y + 80;
+    let lastLineY = y;
 
-    for (let word of words) {
-      const testLine = line + word + ' ';
-      const metrics = ctx.measureText(testLine);
-      if (metrics.width > maxWidth && line !== '') {
-        ctx.fillText(line, this.x + this.width / 2, y);
-        line = word + ' ';
-        y += lineHeight;
-      } else {
-        line = testLine;
-      }
+    for (const line of lines) {
+      ctx.fillText(line, this.x + this.width / 2, y);
+      lastLineY = y;
+      y += lineHeight;
     }
-    ctx.fillText(line, this.x + this.width / 2, y);
 
     // Optionally draw secondary text if provided in this.options
     if (this.colors.modalText2Color && this.options && this.options.text2) {
@@ -2020,7 +2037,7 @@ export class Modal {
       ctx.fillStyle = this.colors.modalText2Color;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
-      ctx.fillText(this.options.text2, this.x + this.width / 2, y + lineHeight + 10);
+      ctx.fillText(this.options.text2, this.x + this.width / 2, lastLineY + lineHeight + 10);
     }
 
     // Draw the button menu (it handles all button rendering)
@@ -2094,21 +2111,7 @@ export class Toast {
     // Word wrap
     const maxWidth = this.width - iconSize - this.padding * 3;
     const messageX = x + iconSize + this.padding * 2;
-    const words = this.message.split(' ');
-    let line = '';
-    let lines = [];
-
-    for (let word of words) {
-      const testLine = line + word + ' ';
-      const metrics = ctx.measureText(testLine);
-      if (metrics.width > maxWidth && line !== '') {
-        lines.push(line);
-        line = word + ' ';
-      } else {
-        line = testLine;
-      }
-    }
-    lines.push(line);
+    const lines = wrapText(this.message, maxWidth, (text) => ctx.measureText(text));
 
     // Draw lines centered vertically
     const lineHeight = 18;
