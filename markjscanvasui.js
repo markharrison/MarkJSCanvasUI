@@ -2097,12 +2097,8 @@ export class Toast {
     ctx.fill();
 
     // Icon
-    let iconFont = 'bold 24px Arial';
-    if (this.type === 'achievement') {
-      iconFont = 'bold 36px Arial'; // Make the achievement star bigger
-    }
-    ctx.font = iconFont;
-    ctx.fillStyle = '#ffffff';
+    ctx.font = this.type === 'achievement' ? 'bold 30px Arial' : 'bold 24px Arial';
+    ctx.fillStyle = '#fff';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(this.config.icon, iconX, iconY);

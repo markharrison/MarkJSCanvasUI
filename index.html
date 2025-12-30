@@ -325,12 +325,13 @@
                   );
                 },
               },
+              { label: 'Info Toast', callback: () => ui.showToast('Information message!', 'info', 3000) },
               { label: 'Success Toast', callback: () => ui.showToast('Success message!', 'success', 3000) },
               { label: 'Error Toast', callback: () => ui.showToast('Error message!', 'error', 3000) },
               { label: 'Warning Toast', callback: () => ui.showToast('Warning message!', 'warning', 3000) },
               { label: 'Achievement Toast', callback: () => ui.showToast('Achievement unlocked!', 'achievement', 3500) },
             ],
-            { orientation: 'horizontal', width: 160, height: 45, gap: 5 }
+            { orientation: 'horizontal', width: 140, height: 40, gap: 4 }
           )
         );
 
