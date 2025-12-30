@@ -2096,7 +2096,6 @@ export class Toast {
     ctx.arc(iconX, iconY, iconSize / 2, 0, Math.PI * 2);
     ctx.fill();
 
-
     // Icon
     let iconFont = 'bold 24px Arial';
     if (this.type === 'achievement') {
