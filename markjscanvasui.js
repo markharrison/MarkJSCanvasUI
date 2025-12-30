@@ -2066,6 +2066,7 @@ export class Toast {
       success: { color: '#4CAF50', icon: '✓' },
       warning: { color: '#FF9800', icon: '⚠' },
       error: { color: '#F44336', icon: '✕' },
+      achievement: { color: '#FFD700', icon: '★' },
     };
 
     this.config = this.typeConfig[type] || this.typeConfig.info;
@@ -2095,8 +2096,13 @@ export class Toast {
     ctx.arc(iconX, iconY, iconSize / 2, 0, Math.PI * 2);
     ctx.fill();
 
+
     // Icon
-    ctx.font = 'bold 24px Arial';
+    let iconFont = 'bold 24px Arial';
+    if (this.type === 'achievement') {
+      iconFont = 'bold 36px Arial'; // Make the achievement star bigger
+    }
+    ctx.font = iconFont;
     ctx.fillStyle = '#ffffff';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';

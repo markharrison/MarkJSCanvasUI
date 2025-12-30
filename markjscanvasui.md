@@ -747,7 +747,7 @@ Display temporary notification messages in the corner:
 ```javascript
 ui.showToast(
   'Operation successful!', // message
-  'success', // type: 'info', 'success', 'warning', 'error'
+  'success', // type: 'info', 'success', 'warning', 'error', 'achievement'
   3000 // duration in milliseconds
 );
 ```
@@ -758,6 +758,7 @@ ui.showToast(
 - `success` - Green with checkmark (✓)
 - `warning` - Orange with warning icon (⚠)
 - `error` - Red with X icon (✕)
+- `achievement` - Gold with white star (★) icon, for celebrating achievements or milestones
 
 **Features:**
 
