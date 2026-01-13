@@ -269,7 +269,12 @@
         // Slider
         ui.addText('Slider (0-100)', 500, 430, { fontSize: 18, fontWeight: 'bold' });
         currentY += 30;
-        ui.addControl(new Slider(500, 450, 0, 100, 50, 1, 'label', (val) => ui.showToast(`Slider: ${Math.round(val)}`, 'info', 1500), { width: 350 }));
+        ui.addControl(
+          new Slider(500, 450, 0, 100, 50, 1, 'Volume', (val) => ui.showToast(`Volume: ${val === 0 ? 'Muted' : Math.round(val)}`, 'info', 1500), {
+            width: 350,
+            zeroText: 'Muted', // Shows "Muted" instead of "0" when slider is at minimum
+          })
+        );
 
         // Column 2 - Right side controls
         let col2X = 500;

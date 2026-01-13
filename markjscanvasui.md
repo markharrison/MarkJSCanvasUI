@@ -478,6 +478,7 @@ const slider = new Slider(
     controlSurfaceColor: '#333333', // Background
     controlTextColor: '#ffffff', // Label and value text
     borderRadius: 10,
+    zeroText: 'Off', // Optional: Text to display when value is exactly 0 (e.g., 'Off', 'Disabled', 'Muted')
   }
 );
 ui.addControl(slider);
@@ -488,7 +489,25 @@ ui.addControl(slider);
 - Mouse click on track to set value
 - Arrow Left/Right keys when focused
 - Gamepad D-pad left/right when focused
-- Displays current value
+- Displays current value (or custom text when value is exactly 0 if `zeroText` is provided)
+
+**Zero Value Display:**
+
+The `zeroText` option allows you to display custom text instead of "0" when the slider value is exactly zero:
+
+```javascript
+// Audio volume slider that shows "Muted" at 0
+const audioSlider = new Slider(100, 100, 0, 100, 75, 1, 'Audio Volume', callback, {
+  zeroText: 'Muted',
+});
+
+// Brightness slider that shows "Off" at 0
+const brightnessSlider = new Slider(100, 200, 0, 100, 50, 5, 'Brightness', callback, {
+  zeroText: 'Off',
+});
+```
+
+When the slider is dragged to zero or set to zero programmatically, the custom text appears in place of the numeric value. This provides better user feedback for settings where zero represents a special state (disabled, off, muted, etc.).
 
 ### Panel
 

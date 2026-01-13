@@ -1627,6 +1627,7 @@ export class Slider extends Control {
     this.label = label;
     this.callback = callback;
     this.dragging = false;
+    this.zeroText = options.zeroText; // Optional text to display when value is 0
   }
 
   isOverInteractiveArea(x, y) {
@@ -1758,7 +1759,9 @@ export class Slider extends Control {
     ctx.fillStyle = this.options.textColor;
     ctx.textAlign = 'right';
     ctx.textBaseline = 'bottom';
-    ctx.fillText(this.value.toString(), this.x + this.width - this.options.padding, this.y + this.height - this.options.padding);
+    // Display zeroText if value is exactly 0 and zeroText is provided
+    const displayText = this.value === 0 && this.zeroText ? this.zeroText : this.value.toString();
+    ctx.fillText(displayText, this.x + this.width - this.options.padding, this.y + this.height - this.options.padding);
   }
 }
 
